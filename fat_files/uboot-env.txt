@@ -1,0 +1,2 @@
+bootargs=console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait
+bootcmd=fatload mmc 0:1 0x21000000 at91-sama5d2_xplained_pda4.dtb; fatload mmc 0:1 0x22000000 zImage; bootz 0x22000000 - 0x21000000
