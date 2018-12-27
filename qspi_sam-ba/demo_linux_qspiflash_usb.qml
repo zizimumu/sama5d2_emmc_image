@@ -56,16 +56,18 @@ SerialConnection {
 		
 		print("-I- === Initialize serialflash access ===")
 		initializeApplet("qspiflash")
+		//applet.erase(0, applet.memorySize)
+		applet.erase(0, 0x180000)
 
 		// erase then write files
 		print("-I- === Load AT91Bootstrap ===")
-		eraseWrite(0x00000000, "boot.bin", true)
+		applet.write(0x00000000, "boot.bin", true)
 
 		//print("-I- === Load u-boot environment ===")
 		//eraseWrite(0x00006000, ubootEnvFileName)
 
 		print("-I- === Load u-boot ===")
-		eraseWrite(0x00008000, "u-boot.bin")
+		applet.write(0x00008000, "u-boot.bin")
 		
 		
 		// initialize SD/MMC applet for on-board eMMC
