@@ -57,7 +57,7 @@ SerialConnection {
 		print("-I- === Initialize serialflash access ===")
 		initializeApplet("qspiflash")
 		//applet.erase(0, applet.memorySize)
-		applet.erase(0, 0x180000)
+		applet.erase(0, 0x140000)
 
 		// erase then write files
 		print("-I- === Load AT91Bootstrap ===")
@@ -67,7 +67,8 @@ SerialConnection {
 		//eraseWrite(0x00006000, ubootEnvFileName)
 
 		print("-I- === Load u-boot ===")
-		applet.write(0x00008000, "u-boot.bin")
+		applet.write(0x00040000, "u-boot.bin") //SOM board uboot offset is 0x010000
+		
 		
 		
 		// initialize SD/MMC applet for on-board eMMC
@@ -83,8 +84,9 @@ SerialConnection {
 		initializeApplet("bootconfig")
 		// Use BUREG0 as boot configuration word
 		applet.writeBootCfg(BootCfg.BSCR, BSCR.fromText("VALID,BUREG0"))
-		applet.writeBootCfg(BootCfg.BUREG0,BCW.fromText("EXT_MEM_BOOT,UART1_IOSET1,JTAG_IOSET1," +
-"SDMMC1_DISABLED,SDMMC0_DISABLED,NFC_DISABLED," +"SPI1_DISABLED," +"QSPI0_IOSet3"))
+		
+		applet.writeBootCfg(BootCfg.BUREG0,
+			BCW.fromText("EXT_MEM_BOOT,QSPI0_IOSET3,JTAG_IOSET1,SPI0_DISABLED,SPI1_DISABLED"))
 
 
 		print("-I- === Done. ===")
